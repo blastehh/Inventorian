@@ -120,6 +120,33 @@ function Frame:OnBagToggleEnter(toggle)
 	GameTooltip:Show()
 end
 
+function Frame:OnBagSortClick(toggle, button)
+	if IsAddOnLoaded("SortBags") then
+		if button == "LeftButton" and not self:IsCached() then
+			if self:IsBank() then
+				SortBankBags()
+			else
+				SortBags()
+			end
+		end
+	end
+end
+
+function Frame:OnBagSortEnter(toggle)
+	GameTooltip:SetOwner(toggle, "ANCHOR_LEFT")
+	GameTooltip:SetText(L["Sort Bags"], 1, 1, 1)
+	if IsAddOnLoaded("SortBags") then
+		if self:IsBank() then
+			GameTooltip:AddLine(L["<Left-Click> to sort your bank bags"])
+		else
+			GameTooltip:AddLine(L["<Left-Click> to sort your bags"])
+		end
+	else
+		GameTooltip:AddLine(L["Install SortBags to sort your bags"])
+	end
+	GameTooltip:Show()
+end
+
 function Frame:OnEvent(event, ...)
 	if event == "UNIT_PORTRAIT_UPDATE" and self:IsShown() then
 		SetPortraitTexture(self.portrait, "player")
