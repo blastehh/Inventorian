@@ -177,6 +177,7 @@ function Item:UpdateCooldown()
 end
 
 function Item:SetBorderColor(r, g, b)
+	self.IconBorder:SetAtlas("WoWShare-ItemQualityBorder")
 	self.IconBorder:SetVertexColor(r, g, b)
 	self.IconBorder:Show()
 end
