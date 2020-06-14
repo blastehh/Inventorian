@@ -27,7 +27,8 @@ Inventorian.Frame = {}
 Inventorian.Frame.defaults = {}
 Inventorian.Frame.prototype = Frame
 function Inventorian.Frame:Create(name, titleText, settings, config)
-	local frame = setmetatable(CreateFrame("Frame", name, UIParent, "InventorianFrameTemplate"), Frame_MT)
+	template = config[1].isKeyring and "InventorianKeyringFrameTemplate" or "InventorianFrameTemplate"
+	local frame = setmetatable(CreateFrame("Frame", name, UIParent, template), Frame_MT)
 
 	-- settings
 	frame.config = config
@@ -38,6 +39,8 @@ function Inventorian.Frame:Create(name, titleText, settings, config)
 
 	if frame:IsBank() then
 		frame:SetMinResize(275, 325)
+	elseif frame:IsKeyring() then
+		frame:SetMinResize(220, 165)
 	else
 		frame:SetMinResize(250, 260)
 	end
@@ -209,13 +212,15 @@ function Frame:Update()
 	self.itemContainer:UpdateBags()
 	self:UpdateTitleText()
 
-	-- update the money frame
-	if self:IsCached() then
-		MoneyFrame_SetType(self.Money, "INVENTORIAN")
-	else
-		MoneyFrame_SetType(self.Money, "PLAYER")
+	if not self:IsKeyring() then
+		-- update the money frame
+		if self:IsCached() then
+			MoneyFrame_SetType(self.Money, "INVENTORIAN")
+		else
+			MoneyFrame_SetType(self.Money, "PLAYER")
+		end
+		MoneyFrame_UpdateMoney(self.Money)
 	end
-	MoneyFrame_UpdateMoney(self.Money)
 
 	self.cachedView = self:IsCached()
 end
@@ -361,6 +366,10 @@ end
 
 function Frame:IsBank()
 	return self.currentConfig.isBank
+end
+
+function Frame:IsKeyring()
+	return self.currentConfig.isKeyring
 end
 
 function Frame:AtBank()

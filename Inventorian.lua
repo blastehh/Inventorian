@@ -21,6 +21,14 @@ local defaults = {
 			height = 512,
 			showBags = false,
 		},
+		keyring = {
+			x = -20,
+			y = -80,
+			point = "RIGHT",
+			width = 256,
+			height = 256,
+			showBags = false,
+		},
 	}
 }
 
@@ -37,6 +45,15 @@ local BAG_CONFIG =
 	}
 }
 
+local KEYRING_CONFIG =
+{
+	{
+		title = KEYRING,
+		bags = { KEYRING_CONTAINER },
+		isKeyring = true,
+	}
+}
+
 local BANK_CONFIG =
 {
 	{
@@ -48,6 +65,7 @@ local BANK_CONFIG =
 
 function Inventorian:OnEnable()
 	self.bag = Inventorian.Frame:Create("InventorianBagFrame", L["%s's Inventory"], db.bag, BAG_CONFIG)
+	self.keyring = Inventorian.Frame:Create("InventorianKeyringFrame", L["%s's Keyring"], db.keyring, KEYRING_CONFIG)
 	self.bank = Inventorian.Frame:Create("InventorianBankFrame", L["%s's Bank"], db.bank, BANK_CONFIG)
 	self:SetupBagHooks()
 
@@ -71,8 +89,12 @@ function Inventorian:AutoHideInventory()
 	self.bag:HideFrame(true)
 end
 
-function Inventorian:ToggleBackpack()
-	self.bag:ToggleFrame()
+function Inventorian:ToggleBackpack(id)
+	if id and id == KEYRING_CONTAINER then
+		self.keyring:ToggleFrame()
+	else
+		self.bag:ToggleFrame()
+	end
 end
 
 function Inventorian:OpenAllBags()
