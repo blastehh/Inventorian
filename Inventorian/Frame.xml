@@ -244,7 +244,7 @@
 			</Button>
 			
 			<Button name="$parentSort" parentKey="SortButton">
-				<Size x="22" y="22"/>
+				<Size x="24" y="22"/>
 				<Anchors>
 					<Anchor point="BOTTOMLEFT">
 						<Offset x="8" y="4"/>
@@ -253,40 +253,28 @@
 
 				<Layers>
 					<Layer level="BACKGROUND">
-						<Texture parentKey="Icon" name="$parentIcon" file="Interface\Buttons\UI-SortArrow">
-							<Size x="14" y="14"/>
+						<Texture parentKey="Icon" name="$parentIcon" atlas="bags-button-autosort-up">
+							<Size x="24" y="22"/>
 							<Anchors>
-								<Anchor point="TOPLEFT">
-									<Offset x="8" y="-5"/>
-								</Anchor>
+								<Anchor point="CENTER" x="0" y="-1"/>
 							</Anchors>
-							<TexCoords left="0.075" right="0.925" top="0.075" bottom="0.925"/>
+							
 						</Texture>
 					</Layer>
-					<Layer level="OVERLAY">
-						<Texture parentKey="Border" name="$parentBorder" file="Interface\Minimap\MiniMap-TrackingBorder">
-							<Size x="39" y="39"/>
 
-							<Anchors>
-								<Anchor point="TOPLEFT"/>
-							</Anchors>
-						</Texture>
-					</Layer>
 				</Layers>
 				<Scripts>
 					<OnLoad>
 						self:RegisterForClicks("anyUp")
-						self.Border:SetDesaturated(true)
-						self.Border:SetAlpha(0.6)
 					</OnLoad>
 					<OnClick>
 						self:GetParent():OnBagSortClick(self, button)
 					</OnClick>
 					<OnMouseDown>
-						self.Icon:SetTexCoord(0,1,0,1)
+						self.Icon:SetAtlas("bags-button-autosort-down")
 					</OnMouseDown>
 					<OnMouseUp>
-						self.Icon:SetTexCoord(0.075,0.925,0.075,0.925)
+						self.Icon:SetAtlas("bags-button-autosort-up")
 					</OnMouseUp>
 					<OnEnter>
 						self:GetParent():OnBagSortEnter(self)
@@ -295,7 +283,7 @@
 						GameTooltip:Hide()
 					</OnLeave>
 				</Scripts>
-				<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+				<HighlightTexture alpha="0.3" alphaMode="ADD" parentKey="HighlightTexture" atlas="bags-innerglow" />
 			</Button>
 			<Frame parentKey="Money" name="$parentMoneyFrame" inherits="SmallMoneyFrameTemplate">
 				<Anchors>
