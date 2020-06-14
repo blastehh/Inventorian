@@ -1,9 +1,9 @@
-## Interface: 80205
+## Interface: 11302
 
 ## Title: Inventorian
 ## Notes: One large inventory.
 ## Author: Nevcairiel
-## Version: @project-version@
+## Version: 1.13.2.4
 
 ## X-Website: https://www.wowace.com/projects/inventorian
 ## X-License: All rights reserved.
@@ -13,7 +13,6 @@
 
 ## SavedVariables: InventorianDB
 
-#@no-lib-strip@
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 
@@ -25,7 +24,6 @@ libs\AceDB-3.0\AceDB-3.0.xml
 libs\AceLocale-3.0\AceLocale-3.0.xml
 
 libs\LibWindow-1.1\LibWindow-1.1.lua
-#@end-no-lib-strip@
 
 libs\LibItemCache-1.1\LibItemCache-1.1.xml
 libs\LibItemSearch-1.0.lua
