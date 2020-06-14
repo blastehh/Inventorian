@@ -188,7 +188,7 @@
 				</Scripts>
 			</EditBox>
 
-			<Button name="$pargenBagToggle">
+			<Button name="$parentBagToggle">
 				<Size x="32" y="32"/>
 				<Anchors>
 					<Anchor point="TOPRIGHT">
@@ -243,7 +243,7 @@
 				<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
 			</Button>
 			
-			<Button name="$parentSort">
+			<Button name="$parentSort" parentKey="SortButton">
 				<Size x="22" y="22"/>
 				<Anchors>
 					<Anchor point="BOTTOMLEFT">

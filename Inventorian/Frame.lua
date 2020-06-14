@@ -243,8 +243,10 @@ function Frame:Update()
 		-- update the money frame
 		if self:IsCached() then
 			MoneyFrame_SetType(self.Money, "INVENTORIAN")
+			self.SortButton:Hide()
 		else
 			MoneyFrame_SetType(self.Money, "PLAYER")
+			self.SortButton:Show()
 		end
 		MoneyFrame_UpdateMoney(self.Money)
 	end
@@ -270,6 +272,13 @@ function Frame:ShowFrame(auto)
 	if self:IsCached() and not ItemCache:HasCache() then
 		Inventorian:Print("No Cache available, please enable BagBrother to enable this functionality")
 		return
+	end
+	if not self:IsKeyring() then
+		if self:IsCached() then
+			self.SortButton:Hide()
+		else
+			self.SortButton:Show()
+		end
 	end
 
 	if not self:IsShown() then
