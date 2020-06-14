@@ -144,7 +144,7 @@ function Lib:GetBagInfo(player, bag)
 	local isCached, _,_, tab = self:GetBagType(player, bag)
 	local realm, player = self:GetPlayerAddress(player)
 	local owned = true
-
+	
 	if tab then
 		if isCached then
 			return Cache('GetBag', realm, player, bag, tab)
@@ -164,6 +164,17 @@ function Lib:GetBagInfo(player, bag)
 			local icon = GetInventoryItemTexture('player', slot)
 
 			return link, GetContainerNumFreeSlots(bag), icon, slot, GetContainerNumSlots(bag)
+		end
+	elseif bag == KEYRING_CONTAINER then
+		if isCached then
+			local data = Cache('GetBag', realm, player, bag, nil, nil)
+			local size = 4
+			if data then
+				for k in pairs(data) do
+					size = k > size and k or size
+				end
+			end
+			return nil, 0, nil, nil, size, true
 		end
 	end
 

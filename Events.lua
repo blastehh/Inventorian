@@ -46,7 +46,9 @@ function Events:OnEnable()
 	self:RegisterEvent("ITEM_LOCK_CHANGED", "GenericEvent")
 
 	self:UpdateBagSize(BACKPACK_CONTAINER)
+	self:UpdateBagSize(KEYRING_CONTAINER)
 	self:UpdateItems(BACKPACK_CONTAINER)
+	self:UpdateItems(KEYRING_CONTAINER)
 end
 
 function Events:GenericEvent(event, ...)
@@ -85,7 +87,7 @@ end
 
 function Events:UpdateItem(bag, slot)
 	local data = slots[ToIndex(bag, slot)]
-
+	
 	if data then
 		local prevLink = data[1]
 		local prevCount = data[2]
@@ -161,6 +163,7 @@ function Events:UpdateBagSizes()
 			self:UpdateBagSize(bag)
 		end
 	end
+	self:UpdateBagSize(KEYRING_CONTAINER)
 end
 
 -- events
