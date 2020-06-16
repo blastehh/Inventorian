@@ -283,7 +283,9 @@ function Bag:UpdateTooltip()
 	else
 		self:UpdateBagTooltip()
 	end
-	GameTooltip:AddLine(L["<Right-Click> to show/hide this bag's contents"])
+	if not self:IsCached() then
+		GameTooltip:AddLine(L["<Right-Click> to show/hide this bag's contents"])
+	end
 
 	GameTooltip:Show()
 end

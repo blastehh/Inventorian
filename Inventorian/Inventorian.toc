@@ -3,7 +3,7 @@
 ## Title: Inventorian Classic
 ## Notes: One large inventory.
 ## Author: Nevcairiel
-## Version: 1.13.4.10
+## Version: 1.13.4.11
 
 ## X-Website: https://www.wowace.com/projects/inventorian
 ## X-License: All rights reserved.
