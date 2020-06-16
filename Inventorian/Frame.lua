@@ -137,11 +137,7 @@ function Frame:OnBagSortEnter(toggle)
 	GameTooltip:SetOwner(toggle, "ANCHOR_LEFT")
 	GameTooltip:SetText(L["Sort Bags"], 1, 1, 1)
 	if IsAddOnLoaded("SortBags") then
-		if self:IsBank() then
-			GameTooltip:AddLine(L["<Left-Click> to sort your bank bags"])
-		else
-			GameTooltip:AddLine(L["<Left-Click> to sort your bags"])
-		end
+		GameTooltip:AddLine(L["<Left-Click> to automatically sort this bag"])
 	else
 		GameTooltip:AddLine(L["Install SortBags to sort your bags"])
 	end
