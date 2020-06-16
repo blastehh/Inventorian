@@ -36,7 +36,10 @@ function Inventorian.Frame:Create(name, titleText, settings, config)
 	frame.titleText = titleText
 	frame.currentConfig = config[1]
 	frame.bagButtons = {}
-
+	frame.hiddenBags = frame.settings.hiddenBags
+	frame.hiddenBags = frame.hiddenBags or {}
+	frame.hiddenBags[UnitName('player')] = frame.hiddenBags[UnitName('player')] or {}
+	
 	if frame:IsBank() then
 		frame:SetMinResize(275, 325)
 	elseif frame:IsKeyring() then
@@ -210,6 +213,9 @@ function Frame:UpdateBags()
 				bag:SetPoint("TOP", self.bagButtons[i-1], "BOTTOM", 0, -2)
 			else
 				bag:SetPoint("TOPRIGHT", -12, -66)
+			end
+			if bag:IsContentsHidden() and not self:IsCached() then
+				SetItemButtonTextureVertexColor(bag, 1, 0.1, 0.1)
 			end
 			bag:Show()
 		end

@@ -18,6 +18,7 @@ L["Install SortBags to sort your bags"] = true
 L["<Right-Click> to deposit reagents into the reagent bank"] = true
 L["<Right-Click> to show the bank contents"] = true
 L["<Right-Click> to show %s's bank contents"] = true
+L["<Right-Click> to show/hide this bag's contents"] = true
 L["Bags"] = true
 L["Sort Bags"] = true
 L["Cached"] = true

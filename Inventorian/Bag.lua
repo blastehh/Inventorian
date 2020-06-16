@@ -47,7 +47,7 @@ function Inventorian.Bag:Create()
 	ht:SetAllPoints(bag)
 	bag:SetHighlightTexture(ht)
 
-	bag:RegisterForClicks("LeftButtonUp")
+	bag:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 	bag:RegisterForDrag("LeftButton")
 
 	bag:SetScript("OnEnter", bag.OnEnter)
@@ -133,6 +133,9 @@ function Bag:OnClick(button)
 		else
 			PutItemInBag(self:GetInventorySlot())
 		end
+	elseif button == "RightButton" then
+		self:ToggleHideContents()
+		self:GetParent():UpdateBags()
 	elseif not(self:IsBackpack() or self:IsBank()) then
 		self:Pickup()
 	end
@@ -196,7 +199,11 @@ function Bag:UpdateSlotInfo()
 		self.hasItem = link
 
 		SetItemButtonTexture(self, texture or GetItemIcon(link))
-		SetItemButtonTextureVertexColor(self, 1, 1, 1)
+		if self:IsContentsHidden() and not self:IsCached() then
+			SetItemButtonTextureVertexColor(self, 1, 0.1, 0.1)
+		else
+			SetItemButtonTextureVertexColor(self, 1, 1, 1)
+		end
 	else
 		self.hasItem = nil
 
@@ -276,6 +283,7 @@ function Bag:UpdateTooltip()
 	else
 		self:UpdateBagTooltip()
 	end
+	GameTooltip:AddLine(L["<Right-Click> to show/hide this bag's contents"])
 
 	GameTooltip:Show()
 end
@@ -345,4 +353,20 @@ function Bag:IsLocked()
 		return IsInventoryItemLocked(slot)
 	end
 	return false
+end
+
+function Bag:IsContentsHidden()
+	return self:GetParent().hiddenBags[UnitName('player')][self:GetID()] or false
+end
+
+function Bag:HideContents()
+	self:GetParent().hiddenBags[UnitName('player')][self:GetID()] = true
+end
+
+function Bag:ShowContents()
+	self:GetParent().hiddenBags[UnitName('player')][self:GetID()] = false
+end
+
+function Bag:ToggleHideContents()
+	self:GetParent().hiddenBags[UnitName('player')][self:GetID()] = not self:GetParent().hiddenBags[UnitName('player')][self:GetID()]
 end

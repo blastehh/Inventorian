@@ -165,12 +165,36 @@ end
 function ItemContainer:Layout()
 	local width, height = self:GetWidth(), self:GetHeight()
 	local spacing = 2
-	local count = self.itemCount
+	local realCount = self.itemCount
+	local items = self.items
 	local size = 36 + spacing*2
 	local cols = 0
 	local scale, rows
+	local parent = self:GetParent()
+	local isCached = parent:IsCached()
+	local shownCount = 0
+	local count = 0
+	local hiddenBags = parent.hiddenBags[ItemCache.PLAYER]
 
-	if count <= 0 then return end
+	for k, v in pairs(items) do
+		if not hiddenBags[ToBag(k)] and v then
+			shownCount = shownCount + 1
+		end
+	end
+
+	local count = isCached and realCount or shownCount
+	if count <= 0 then
+		for _, bag in ipairs(self.bags) do
+			for slot = 1, self:GetBagSize(bag) do
+				local item = items[ToIndex(bag, slot)]
+				if item then
+					item:ClearAllPoints()
+					item:Hide()
+				end
+			end
+		end
+		return
+	end
 
 	repeat
 		cols = cols + 1
@@ -179,21 +203,24 @@ function ItemContainer:Layout()
 	until (scale <= 1.33 and cols*rows >= count)
 
 	--layout the items
-	local items = self.items
 	local i = 0
 
 	for _, bag in ipairs(self.bags) do
 		for slot = 1, self:GetBagSize(bag) do
 			local item = items[ToIndex(bag, slot)]
 			if item then
-				i = i + 1
-
-				local row = mod(i-1, cols)
-				local col = ceil(i / cols) - 1
-				item:ClearAllPoints()
-				item:SetScale(scale)
-				item:SetPoint("TOPLEFT", self, "TOPLEFT", size*row + spacing, -(size*col + spacing))
-				item:Show()
+				if not isCached and hiddenBags[bag] then
+					item:ClearAllPoints()
+					item:Hide()
+				else
+					i = i + 1
+					local row = mod(i-1, cols)
+					local col = ceil(i / cols) - 1
+					item:ClearAllPoints()
+					item:SetScale(scale)
+					item:SetPoint("TOPLEFT", self, "TOPLEFT", size*row + spacing, -(size*col + spacing))
+					item:Show()
+				end
 			end
 		end
 	end

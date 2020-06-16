@@ -12,6 +12,7 @@ local defaults = {
 			width = 384,
 			height = 512,
 			showBags = false,
+			hiddenBags = {},
 		},
 		bank = {
 			x = 220,
@@ -20,6 +21,7 @@ local defaults = {
 			width = 512,
 			height = 512,
 			showBags = false,
+			hiddenBags = {},
 		},
 		keyring = {
 			x = -20,
