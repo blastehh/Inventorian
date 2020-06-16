@@ -105,6 +105,7 @@ function Frame:OnBagToggleClick(toggle, button)
 		self:ToggleBagFrame()
 	elseif button == "RightButton" then
 		if not self:IsBank() and ItemCache:HasCache() then
+			Inventorian.bank:SetPlayer(self:GetPlayerName())
 			Inventorian.bank:ShowFrame(false)
 		end
 	end
@@ -115,7 +116,7 @@ function Frame:OnBagToggleEnter(toggle)
 	GameTooltip:SetText(L["Bags"], 1, 1, 1)
 	GameTooltip:AddLine(L["<Left-Click> to toggle the bag display"])
 	if not self:IsBank() and ItemCache:HasCache() then
-		GameTooltip:AddLine(L["<Right-Click> to show the bank contents"])
+		GameTooltip:AddLine( (L["<Right-Click> to show %s's bank contents"]):format(self:PlayerClassString(self:GetPlayerName())) )
 	end
 	GameTooltip:Show()
 end
@@ -327,11 +328,8 @@ do
 	end
 
 	local function PlayerEntry(player)
-		local class = ItemCache:GetPlayerInfo(player)
-		if not RAID_CLASS_COLORS[class] or not RAID_CLASS_COLORS[class].colorStr then class = nil end
-
 		UIDropDownMenu_AddButton({
-			text = class and ("|c%s%s|r"):format(RAID_CLASS_COLORS[class].colorStr, player) or player,
+			text = ActiveFrame:PlayerClassString(player),
 			hasArrow = ItemCache:IsPlayerCached(player),
 			checked = (player == ActiveFrame:GetPlayerName()),
 			func = SetPlayer,
@@ -410,4 +408,10 @@ end
 
 function Frame:AtBank()
 	return Events.atBank
+end
+
+function Frame:PlayerClassString(player)
+	local class = ItemCache:GetPlayerInfo(player)
+	if not RAID_CLASS_COLORS[class] or not RAID_CLASS_COLORS[class].colorStr then class = nil end
+	return class and ("|c%s%s|r"):format(RAID_CLASS_COLORS[class].colorStr, player) or player
 end
