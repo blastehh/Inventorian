@@ -108,8 +108,12 @@ function Frame:OnBagToggleClick(toggle, button)
 		self:ToggleBagFrame()
 	elseif button == "RightButton" then
 		if not self:IsBank() and ItemCache:HasCache() then
-			Inventorian.bank:SetPlayer(self:GetPlayerName())
-			Inventorian.bank:ShowFrame(false)
+			if not Inventorian.bank:IsShown() then
+				Inventorian.bank:SetPlayer(self:GetPlayerName())
+				Inventorian.bank:ShowFrame(false)
+			else
+				Inventorian.bank:HideFrame(false)
+			end
 		end
 	end
 end
